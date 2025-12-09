@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Developer Portfolio</title>
+    <title>hrumy's portfolio</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -23,18 +23,39 @@
         }
         .game-section {
             margin: 40px 0;
+            padding-bottom: 20px;
+            position: relative;
         }
-        .game-images {
+        .divider {
+            width: 50%;
+            height: 1px;
+            background-color: #ffcc00;
+            margin: 30px auto;
+            border-radius: 2px;
+        }
+        .game-preview {
             display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
+            flex-direction: column;
+            align-items: center;
         }
-        .game-images img {
-            width: 300px;
+        .main-image {
+            width: 500px;
             height: auto;
             border-radius: 10px;
             border: 2px solid #ffcc00;
+            cursor: pointer;
+        }
+        .thumbnail-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .thumbnail {
+            width: 100px;
+            height: 60px;
+            border-radius: 5px;
+            border: 2px solid #ffcc00;
+            cursor: pointer;
         }
         .game-button {
             margin-top: 10px;
@@ -49,89 +70,306 @@
         .game-button:hover {
             background-color: #e6b800;
         }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+        }
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+        }
+        .prev, .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 30px;
+            color: white;
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        .prev { left: 10px; }
+        .next { right: 10px; }
+        .game-details {
+            max-width: 600px;
+            margin: 10px auto 0 auto;       
+            text-align: left;               
+            
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease, padding 0.25s ease;
+            background: #1b1b1b;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 0 16px;
+        }
+
+        .game-details h4 {
+            margin-top: 14px;
+            margin-bottom: 10px;
+            color: #e2e2e2;
+            font-weight: 600;
+        }
+
+        .game-details ul {
+            padding-left: 20px;
+            margin: 0 0 14px 0;
+        }
+
+        .game-details ul li {
+            margin-bottom: 10px;
+            line-height: 1.4rem;
+        }
+
+        .game-details:not(.collapsed) {
+            padding: 16px;
+            max-height: 1000px;
+        }
+
+        .expandable {
+            cursor: pointer;
+            user-select: none;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Jakub Hromada</h1>
-        <p> Game and engine developer with a data-oriented mindset. Strong preference for procedural programming, focusing on performance, 		 compile-time, and execution speed. My biggest software inspirations are <a href="https://x.com/cmuratori">Casey Muratori</a>, 
+        <div class="divider"></div>
+        <p> Game and engine programmer with a data-oriented mindset. Strong preference for procedural programming, focusing on performance and maintainability. My biggest software inspirations are <a href="https://x.com/cmuratori">Casey Muratori</a>, 
         <a href="https://x.com/Jonathan_Blow">Jonathan Blow</a> and <a href="https://x.com/grouter_">grouter</a>.</p> 
         
         <br>
         <br>
         <h2>Projects</h2>
+
+        <div class="divider"></div>
         
         <div class="game-section">
             <h3>Grayton the Detective</h3>
             <p>2D narrative adventure puzzle game.</p>
             <p>Unity/C#</p>
-            <div class="game-images">
-                <img src="grayton_screenshot1.jpg" alt="Grayton Screenshot 1">
-                <img src="grayton_screenshot2.jpg" alt="Grayton Screenshot 2">
+            <div class="game-preview">
+                <img id="grayton-main" class="main-image" src="imgs/grayton1.jpg" onclick="openModal('grayton', 0)">
+                <div class="thumbnail-container">
+                    <img class="thumbnail" src="imgs/grayton2.jpg" onclick="openModal('grayton', 1)">
+                    <img class="thumbnail" src="imgs/grayton3.jpg" onclick="openModal('grayton', 2)">
+                    <img class="thumbnail" src="imgs/grayton4.jpg" onclick="openModal('grayton', 3)">
+                    <img class="thumbnail" src="imgs/grayton5.jpg" onclick="openModal('grayton', 4)">
+                </div>
             </div>
             <button class="game-button" onclick="window.location.href='https://store.steampowered.com/app/3280660/Grayton_the_Detective/'">Steam page</button>
+
+            <button class="game-button" onclick="toggleDetails('grayton-details')">
+                What I Did on This Game
+            </button>
+
+            <div id="grayton-details" class="game-details collapsed">
+                <h4>My Contributions</h4>
+                <ul>
+                    <li>Co-designed and implemented the core puzzle systems.</li>
+                    <li>Custom pathfinding algorithm for point & click movement.</li>
+                    <li>Created custom editors for artists and level designers.</li>
+                    <li>Save system with multiple profiles and savefiles.</li>
+                    <li>Controller support.</li>
+                    <li>Keybinding for keyboard and controllers.</li>
+                    <li>Integration of animations, sound, and UI.</li>
+                </ul>
+            </div>
         </div>
+
+        <div class="divider"></div>
 
         <div class="game-section">
             <h3>We Resist</h3>
             <p>3D strategy-management game.</p>
             <p>Unreal Engine/C++</p>
-            <div class="game-images">
-                <img src="strategy_screenshot1.jpg" alt="Strategy Game Screenshot 1">
-                <img src="strategy_screenshot2.jpg" alt="Strategy Game Screenshot 2">
+            <div class="game-preview">
+                <img id="wr-main" class="main-image" src="imgs/wr4.png" onclick="openModal('wr', 4)">
+                <div class="thumbnail-container">
+                    <img class="thumbnail" src="imgs/wr-mission.gif" onclick="openModal('wr', 0)">
+                    <img class="thumbnail" src="imgs/wr-tutorial.gif" onclick="openModal('wr', 1)">
+                    <img class="thumbnail" src="imgs/wr-camp.gif" onclick="openModal('wr', 2)">
+                    <img class="thumbnail" src="imgs/wr0.png" onclick="openModal('wr', 3)">
+                    <img class="thumbnail" src="imgs/wr3.png" onclick="openModal('wr', 4)">
+                </div>
+            </div>
+
+            <button class="game-button" onclick="toggleDetails('wr-details')">
+                What I Did on This Game
+            </button>
+
+            <div id="wr-details" class="game-details collapsed">
+                <h4>Gameplay features</h4>
+                <ul>
+                    <li>You manage your group of soldiers and resources to complete missions in a turn based setiing.</li>
+                    <li>Map consist of regions. Each region tracks reputation of your soldiers based on passed missions and choices.</li>
+                    <li>In each region you can build and manage a camp. You can assign soldiers on various camp roles (e.g. cook = less food needed per day), track their morale and stats. You can move soldiers between camps to optimize the travel distances to missions.</li>
+                    <li>There is a variety of mission types (random, story, recruitment, etc.). Missions calculate the success probability based on number of assigned soldiers, their traits and stats.</li>
+                    <li>Random events can trigger at various times (traveling to mission, on round end, etc.). </li>
+                </ul>
+
+                <div class="divider"></div>
+                
+                <h4>My Contributions</h4>
+                <ul>
+                    <li>Co-designed and implemeted all the above features and systems.</li>
+                    <li>Implemented all UI aspects.</li>
+                    <li>Landscape creation (from heightmap), world partition, runtime virtual textures, LODs optimizations.</li>
+                    <li>Procedural mesh generation.</li>
+                    <li>Editor tools for level designers and artists.</li>
+                    <li>Hints and tutorials system.</li>
+                    <li>Lightning and postprocessing.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="game-section">
+            <h3>Srot</h3>
+            <p>Inventory system demo.</p>
+            <p>Odin/raylib</p>
+            <div class="game-preview">
+                <img id="srot-main" class="main-image" src="imgs/srot/overview.png" onclick="openModal('srot', 0)">
+                <div class="thumbnail-container">
+                    <img class="thumbnail" src="imgs/srot/sorting_all.gif" onclick="openModal('srot', 1)">
+                    <img class="thumbnail" src="imgs/srot/selection.gif" onclick="openModal('srot', 2)">
+                    <img class="thumbnail" src="imgs/srot/selection_sorting.gif" onclick="openModal('srot', 3)">
+                    <img class="thumbnail" src="imgs/srot/affinities.gif" onclick="openModal('srot', 4)">
+                    <img class="thumbnail" src="imgs/srot/splitting.gif" onclick="openModal('srot', 5)">
+                    <img class="thumbnail" src="imgs/srot/adding.gif" onclick="openModal('srot', 6)">
+                </div>
+            </div>
+            
+            <button class="game-button" onclick="window.location.href='https://github.com/hrumy/srot'">Github</button>
+            <button class="game-button" onclick="toggleDetails('srot-details')">
+                What I Did on This Project
+            </button>
+
+            <div id="srot-details" class="game-details collapsed">
+                <!-- <h4>Gameplay features</h4> -->
+                <ul>
+                    <li>Custom immidiate mode UI.</li>
+                    <li>Item management. Drag and drop/click and drag, shortcuts for fast moving items between tabs.</li>
+                    <li>Item sorting. Items in a tab can be sorted either by default (best fit), their type (armour, weapon, currency, ...), or by their stats.</li>
+                    <li>Item selection. Multiple items can be grouped and moved around. You can destroy multiple items together or move them to a different tab.</li>
+                    <li>Selected items can also be sorted as a group.</li>
+                    <li>Items that are stackable can be split into two.</li>
+                    <li>You can set an item type as an affinity of a tab. Then, on quick transfer, the item will move to a tab with associated affinity rather than to the opened one.</li>
+                    <li>You can add a custom item with desired stats, or generate a random one.</li>
+                </ul>
             </div>
         </div>
         
+        <div class="divider"></div>
+
         <div class="game-section">
             <h3>Off stage</h3>
             <p>3D puzzle game.</p>
             <p>Unity/C#</p>
-            <div class="game-images">
-                <img src="grayton_screenshot1.jpg" alt="Grayton Screenshot 1">
-                <img src="grayton_screenshot2.jpg" alt="Grayton Screenshot 2">
+            <div class="game-preview">
+                <img id="os-main" class="main-image" src="imgs/os4.jpg" onclick="openModal('os', 4)">
+                <div class="thumbnail-container">
+                    <img class="thumbnail" src="imgs/os0.png" onclick="openModal('os', 0)">
+                    <img class="thumbnail" src="imgs/os1.png" onclick="openModal('os', 1)">
+                    <img class="thumbnail" src="imgs/os2.png" onclick="openModal('os', 2)">
+                    <img class="thumbnail" src="imgs/os3.png" onclick="openModal('os', 3)">
+                </div>
             </div>
+            <button class="game-button" onclick="window.location.href='https://incidentalminds.itch.io/off-stage/'">Play here</button>
+            <button class="game-button" onclick="window.location.href='https://www.youtube.com/watch?v=ASSIDD5ePVA/'">Gameplay video</button>
         </div>
+
+        <div class="divider"></div>
         
         <div class="game-section">
             <h3>Master thesis</h3>
             <p>VR visualization tool for complex software structures with interactive graph representation focused on interaction.</p>
             <p>Unity/C#</p>
-            <div class="game-images">
-                <img src="grayton_screenshot1.jpg" alt="Grayton Screenshot 1">
-                <img src="grayton_screenshot2.jpg" alt="Grayton Screenshot 2">
+            <div class="game-preview">
+                <img id="mt-main" class="main-image" src="imgs/mt0.png" onclick="openModal('mt', 0)">
+                <div class="thumbnail-container">
+                    <img class="thumbnail" src="imgs/mt1.png" onclick="openModal('mt', 1)">
+                    <img class="thumbnail" src="imgs/mt2.png" onclick="openModal('mt', 2)">
+                    <img class="thumbnail" src="imgs/mt3.png" onclick="openModal('mt', 3)">
+                    <img class="thumbnail" src="imgs/mt4.png" onclick="openModal('mt', 4)">
+                </div>
             </div>
+            <button class="game-button" onclick="window.location.href='https://opac.crzp.sk/?fn=docview2ChildW2SG5&record=CC8450CBF10FC6698178FBC1506C&seo=CRZP-Prehliadanie-pr%C3%A1c'">Thesis document</button>
         </div>
-        
-        <div class="game-section">
-            <h3>Software structure visualization tool</h3>
-            <p>3D visualization of software projects structure using a island metaphore.</p>
-            <p>Unity/C#</p>
-            <div class="game-images">
-                <img src="grayton_screenshot1.jpg" alt="Grayton Screenshot 1">
-                <img src="grayton_screenshot2.jpg" alt="Grayton Screenshot 2">
-            </div>
-        </div>
-        
-        <div class="game-section">
-            <h3>2D platformer</h3>
-            <p>A platformer game from scratch currently in development.</p>
-            <p>OpenGL/Odin</p>
-            <div class="game-images">
-                <img src="grayton_screenshot1.jpg" alt="Grayton Screenshot 1">
-                <img src="grayton_screenshot2.jpg" alt="Grayton Screenshot 2">
-            </div>
-        </div>
-        
-        <div class="game-section">
-            <h3>3D engine demo</h3>
-            <p>Particle system and tools for a small custom engine.</p>
-            <p>OpenGL/C++</p>
-            <div class="game-images">
-                <img src="grayton_screenshot1.jpg" alt="Grayton Screenshot 1">
-                <img src="grayton_screenshot2.jpg" alt="Grayton Screenshot 2">
-            </div>
-        </div>
+
+        <div class="divider"></div>
+    
         
     </div>
+
+    <div id="imageModal" class="modal" onclick="closeModal(event)">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <button class="prev" onclick="changeSlide(-1); event.stopPropagation();">&#10094;</button>
+        <img class="modal-content" id="modalImage" onclick="event.stopPropagation();">
+        <button class="next" onclick="changeSlide(1); event.stopPropagation();">&#10095;</button>
+    </div>
+
+    <script>
+        let currentIndex = 0;
+        let currentImages = {
+            "grayton": ["imgs/grayton1.jpg", "imgs/grayton2.jpg", "imgs/grayton3.jpg", "imgs/grayton4.jpg", "imgs/grayton5.jpg"],
+            "wr": ["imgs/wr-mission.gif", "imgs/wr-tutorial.gif", "imgs/wr-camp.gif", "imgs/wr0.png", "imgs/wr3.png", "imgs/wr4.png"],
+            "os": ["imgs/os0.png", "imgs/os1.png", "imgs/os2.png", "imgs/os3.png", "imgs/os4.jpg"],
+            "mt": ["imgs/mt0.png", "imgs/mt1.png", "imgs/mt2.png", "imgs/mt3.png", "imgs/mt4.png"],
+            "vd": ["imgs/vd0.png", "imgs/vd1.png", "imgs/vd2.png", "imgs/vd3.png", "imgs/vd4.png"],
+            "srot": ["imgs/srot/overview.png", "imgs/srot/sorting_all.gif", "imgs/srot/selection.gif", "imgs/srot/selection_sorting.gif", "imgs/srot/affinities.gif", "imgs/srot/splitting.gif", "imgs/srot/adding.gif",]
+        };
+        let activeGame = "";
+
+        function openModal(game, index) {
+            activeGame = game;
+            currentIndex = index;
+            document.getElementById("modalImage").src = currentImages[activeGame][currentIndex];
+            document.getElementById("imageModal").style.display = "flex";
+        }
+        
+        function closeModal(event) {
+            if (!event || event.target === document.getElementById("imageModal")) {
+                document.getElementById("imageModal").style.display = "none";
+            }
+        }
+        
+        function changeSlide(direction) {
+            currentIndex += direction;
+            if (currentIndex < 0) {
+                currentIndex = currentImages[activeGame].length - 1;
+            } else if (currentIndex >= currentImages[activeGame].length) {
+                currentIndex = 0;
+            }
+            document.getElementById("modalImage").src = currentImages[activeGame][currentIndex];
+        }
+
+        function toggleDetails(id) {
+            const el = document.getElementById(id);
+            el.classList.toggle('collapsed');
+        }
+    </script>
+
 </body>
 </html>
